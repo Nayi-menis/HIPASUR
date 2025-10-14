@@ -1,19 +1,19 @@
 @extends('layouts.admin')
 @section('content')
   <div class="row">
-    <h1> Listado de Usuarios</h1>
+    <h1> Listado de Trabajadores</h1>
   </div>
   <hr>
 
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-13">
             <div class="card card-outline card-primary">
               <div class="card-header">
-                <h3 class="card-title">Usuarios Registrados</h3>
+                <h3 class="card-title">Trabajadores Registrados</h3>
 
                 <div class="card-tools">
-                  <a href="{{url('admin/usuarios/create')}}" class="btn btn-primary">
-                    Regirtar Usuario
+                  <a href="{{url('admin/recursos/create')}}" class="btn btn-primary">
+                    Regirtar Trabajador
                   </a>
                 </div>
                 <!-- /.card-tools -->
@@ -24,23 +24,37 @@
                 <thead class="thead-dark">
                   <tr>
                     <th style="text-align: center"><b>Nro</b></th>
-                    <th style="text-align: center"><b>Nombre</b></th>
+                    <th style="text-align: center"><b>Nombres</b></th>
+                    <th style="text-align: center"><b>Apellidos</b></th>
+                    <th style="text-align: center"><b>Edad</b></th>
+                    <th style="text-align: center"><b>DNI</b></th>
+                    <th style="text-align: center"><b>Celular</b></th>
+                    <th style="text-align: center"><b>Fecha de nacimiento</b></th>
+                    <th style="text-align: center"><b>Departamento</b></th>
+                    <th style="text-align: center"><b>Provincia</b></th>
                     <th style="text-align: center"><b>Email</b></th>
                     <th style="text-align: center"><b>Acciones</b></th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php $contador = 1; ?>
-                  @foreach ($usuarios as $usuario)
+                  @foreach ($recursos as $recurso)
                       <tr>
                         <td style="text-align: center">{{ $contador++}}</td>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->email }}</td>
+                        <td>{{ $recurso->nombres}}</td>
+                        <td>{{ $recurso->apellidos}}</td>
+                        <td>{{ $recurso->edad}}</td>
+                        <td>{{ $recurso->DNI}}</td>
+                        <td>{{ $recurso->celular}}</td>
+                        <td>{{ $recurso->fecha_nacimiento}}</td>
+                        <td>{{ $recurso->departamento}}</td>
+                        <td>{{ $recurso->provincia}}</td>
+                        <td>{{ $recurso->user->email}}</td>
                         <td style="text-align: center">
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="{{url('admin/usuarios/'.$usuario->id)}}" type="button" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
-                            <a href="{{url('admin/usuarios/'.$usuario->id.'/edit')}}" type="button" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{{url('admin/usuarios/'.$usuario->id.'/confirm-delete')}}" type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash2"></i></a>
+                            <a href="{{url('admin/recursos/'.$recurso->id)}}" type="button" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                            <a href="{{url('admin/recursos/'.$recurso->id.'/edit')}}" type="button" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{{url('admin/recursos/'.$recurso->id.'/confirm-delete')}}" type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash2"></i></a>
                           </div>
                         </td>
                       </tr>
@@ -53,12 +67,12 @@
                               "pageLength": 10,
                               "language": {
                                   "emptyTable": "No hay información",
-                                  "info": "Mostrando _START_ a _END_ de _TOTAL_ Usuarios",
-                                  "infoEmpty": "Mostrando 0 a 0 de 0 Usuarios",
-                                  "infoFiltered": "(Filtrado de _MAX_ total Usuarios)",
+                                  "info": "Mostrando _START_ a _END_ de _TOTAL_ Trabajadores",
+                                  "infoEmpty": "Mostrando 0 a 0 de 0 Trabajadores",
+                                  "infoFiltered": "(Filtrado de _MAX_ Total Trabajadores)",
                                   "infoPostFix": "",
                                   "thousands": ",",
-                                  "lengthMenu": "Mostrar _MENU_ Usuarios",
+                                  "lengthMenu": "Mostrar _MENU_ Trabajadores",
                                   "loadingRecords": "Cargando...",
                                   "processing": "Procesando...",
                                   "search": "Buscador:",
@@ -80,12 +94,12 @@
                                           {
                                               text: 'Copiar',
                                               extend: 'copy',
-                                              title: 'SISBYN'
+                                              title: 'HIPASUR'
                                           },
                                           {
                                               extend: 'pdf',
                                               text: 'PDF',
-                                              title: 'SISBYN', // Título del PDF
+                                              title: 'HIPASUR', // Título del PDF
                                               orientation: 'portrait',
                                               pageSize: 'A4',
                                               exportOptions: {
@@ -95,17 +109,17 @@
                                           {
                                               extend: 'csv',
                                               text: 'CSV',
-                                              title: 'SISBYN', // Título del CSV
+                                              title: 'HIPASUR', // Título del CSV
                                           },
                                           {
                                               extend: 'excel',
                                               text: 'EXCEL',
-                                              title: 'SISBYN', // Título del Excel
+                                              title: 'HIPASUR', // Título del Excel
                                           },
                                           {
                                               text: 'Imprimir',
                                               extend: 'print',
-                                              title: 'SISBYN', // Título de la impresión
+                                              title: 'HIPASUR', // Título de la impresión
                                           }
                                       ]
                                   },
@@ -123,6 +137,7 @@
             </div>
             <!-- /.card -->
           </div>
+  
   </div>
 
 @endsection

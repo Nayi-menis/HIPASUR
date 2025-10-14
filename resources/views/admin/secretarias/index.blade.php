@@ -1,19 +1,19 @@
 @extends('layouts.admin')
 @section('content')
   <div class="row">
-    <h1> Listado de Usuarios</h1>
+    <h1> Listado de Secretarias</h1>
   </div>
   <hr>
 
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-13">
             <div class="card card-outline card-primary">
               <div class="card-header">
-                <h3 class="card-title">Usuarios Registrados</h3>
+                <h3 class="card-title">Secretarias Registrados</h3>
 
                 <div class="card-tools">
-                  <a href="{{url('admin/usuarios/create')}}" class="btn btn-primary">
-                    Regirtar Usuario
+                  <a href="{{url('admin/secretarias/create')}}" class="btn btn-primary">
+                    Regirtar Secretaria
                   </a>
                 </div>
                 <!-- /.card-tools -->
@@ -24,23 +24,33 @@
                 <thead class="thead-dark">
                   <tr>
                     <th style="text-align: center"><b>Nro</b></th>
-                    <th style="text-align: center"><b>Nombre</b></th>
+                    <th style="text-align: center"><b>Nombres</b></th>
+                    <th style="text-align: center"><b>Apellidos</b></th>
+                    <th style="text-align: center"><b>DNI</b></th>
+                    <th style="text-align: center"><b>Celular</b></th>
+                    <th style="text-align: center"><b>Fecha de nacimiento</b></th>
+                    <th style="text-align: center"><b>Dirección</b></th>
                     <th style="text-align: center"><b>Email</b></th>
                     <th style="text-align: center"><b>Acciones</b></th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php $contador = 1; ?>
-                  @foreach ($usuarios as $usuario)
+                  @foreach ($secretarias as $secretaria)
                       <tr>
                         <td style="text-align: center">{{ $contador++}}</td>
-                        <td>{{ $usuario->name }}</td>
-                        <td>{{ $usuario->email }}</td>
+                        <td>{{ $secretaria->nombres}}</td>
+                        <td>{{ $secretaria->apellidos}}</td>
+                        <td>{{ $secretaria->DNI}}</td>
+                        <td>{{ $secretaria->celular}}</td>
+                        <td>{{ $secretaria->fecha_nacimiento}}</td>
+                        <td>{{ $secretaria->direccion}}</td>
+                        <td>{{ $secretaria->user->email}}</td>
                         <td style="text-align: center">
                           <div class="btn-group" role="group" aria-label="Basic example">
-                            <a href="{{url('admin/usuarios/'.$usuario->id)}}" type="button" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
-                            <a href="{{url('admin/usuarios/'.$usuario->id.'/edit')}}" type="button" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{{url('admin/usuarios/'.$usuario->id.'/confirm-delete')}}" type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash2"></i></a>
+                            <a href="{{url('admin/secretarias/'.$secretaria->id)}}" type="button" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
+                            <a href="{{url('admin/secretarias/'.$secretaria->id.'/edit')}}" type="button" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
+                            <a href="{{url('admin/secretarias/'.$secretaria->id.'/confirm-delete')}}" type="button" class="btn btn-danger btn-sm"><i class="bi bi-trash2"></i></a>
                           </div>
                         </td>
                       </tr>
@@ -53,12 +63,12 @@
                               "pageLength": 10,
                               "language": {
                                   "emptyTable": "No hay información",
-                                  "info": "Mostrando _START_ a _END_ de _TOTAL_ Usuarios",
-                                  "infoEmpty": "Mostrando 0 a 0 de 0 Usuarios",
-                                  "infoFiltered": "(Filtrado de _MAX_ total Usuarios)",
+                                  "info": "Mostrando _START_ a _END_ de _TOTAL_ Secretarias",
+                                  "infoEmpty": "Mostrando 0 a 0 de 0 Secretarias",
+                                  "infoFiltered": "(Filtrado de _MAX_ total Secretarias)",
                                   "infoPostFix": "",
                                   "thousands": ",",
-                                  "lengthMenu": "Mostrar _MENU_ Usuarios",
+                                  "lengthMenu": "Mostrar _MENU_ Secretarias",
                                   "loadingRecords": "Cargando...",
                                   "processing": "Procesando...",
                                   "search": "Buscador:",
@@ -123,6 +133,7 @@
             </div>
             <!-- /.card -->
           </div>
+  
   </div>
 
 @endsection

@@ -222,12 +222,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </li>
             </ul>
           </li>
-         <!--PARA SECRETARIAS--> 
+         <!--PARA SECRETARIA--> 
           <li class="nav-item">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas bi bi-person-fill"></i>
+              <i class="nav-icon fas bi bi-person-bounding-box"></i>
               <p>
-                Personal de trabajo
+                Secretarias
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -235,11 +235,36 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href="{{url('admin/secretarias/create')}}" class="nav-link"> <!--active para fondo blanco-->
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Creación de trabajadores</p>
+                  <p>Creación de secretarias</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{url('admin/secretarias')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Listado de secretarias</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--PARA TRABAJADORES--> 
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas bi bi-people-fill"></i>
+              <p>
+                Recursos Humanos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('admin/recursos/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Creación de trabajadores</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/recursos')}}" class="nav-link"> <!--active para fondo blanco-->
                   <i class="far fa-circle nav-icon"></i>
                   <p>Listado de trabajadores</p>
                 </a>
@@ -247,87 +272,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </ul>
           </li>
 
-          <!--PARA PACIENTE--> 
+           <!--PARA HORARIOS Y TURNOS--> 
           <li class="nav-item">
             <a href="#" class="nav-link active">
-              <i class="nav-icon fas bi bi-gitlab"></i>
+              <i class="nav-icon fas bi bi-calendar4-week"></i>
               <p>
-                Almacen
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{url('admin/pacientes/create')}}" class="nav-link"> <!--active para fondo blanco-->
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Creación de almacen</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{url('admin/pacientes')}}" class="nav-link"> <!--active para fondo blanco-->
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Listado de Almacen</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <!--PARA CONSULTORIO--> 
-          <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas bi bi-building-add"></i>
-              <p>
-                Consultorios
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{url('admin/consultorios/create')}}" class="nav-link"> <!--active para fondo blanco-->
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Creación de consultorio</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{url('admin/consultorios')}}" class="nav-link"> <!--active para fondo blanco-->
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Listado de consultorio</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <!--PARA DOCTORES--> 
-          <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas bi bi-person-heart"></i>
-              <p>
-                Doctores 
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{url('admin/doctores/create')}}" class="nav-link"> <!--active para fondo blanco-->
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Creación de doctores</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{url('admin/doctores')}}" class="nav-link"> <!--active para fondo blanco-->
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Listado de doctores</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-
-          <!--PARA HORARIO --> 
-          <li class="nav-item">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas bi bi-calendar2-week"></i>
-              <p>
-                Horarios
+                Horarios y turnos 
                 <i class="right fas fa-angle-left"></i>
               </p>
             </a>
@@ -335,19 +285,174 @@ scratch. This page gets rid of all links and provides the needed markup only.
               <li class="nav-item">
                 <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Creación de horarios</p>
+                  <p>Control de asistencia de trabajadores</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Registrar de horarios y turnos</p>
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{url('admin/horarios')}}" class="nav-link"> <!--active para fondo blanco-->
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Listado de horarios</p>
+                  <p>Listado de horarios y turnos</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--PARA LA PRODUCCION--> 
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas bi bi-circle-fill"></i>
+              <p>
+                Producción minera
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('admin/produccion/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Registrar producción</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/produccion')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Listado de producción</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--PARA ALMACEN E INVENTARIO--> 
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas bi bi-box-seam-fill"></i>
+              <p>
+                Almacén e Inventario
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('admin/almacen/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Creación de productos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/almacen')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Listado de productos</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--PARA VEHICULOS/MAQUINARIA--> 
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas bi bi-car-front-fill"></i>
+              <p>
+                Vehículos/Maquinaria
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Creación de vehículos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/horarios')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Listado de vehículos</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--PARA CONTROL DE GASTOS Y FINANZAS--> 
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas bi bi-cash"></i>
+              <p>
+                Control de gastos
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Registro de Gastos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/horarios')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Listado de Gastos</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--PARA SEGURIDAD Y SALUD--> 
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas bi bi-bandaid-fill"></i>
+              <p>
+                Seguridad y Salud
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Registro de seguridad y salud</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/horarios')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Listado de seguridad y salud</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+          <!--PARA FISCALIZACION Y CUMPLIMIENTOS LEGAL--> 
+          <li class="nav-item">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas bi bi-clipboard2-fill"></i>
+              <p>
+                Fiscalización
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Registro de fiscalización</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{url('admin/horarios')}}" class="nav-link"> <!--active para fondo blanco-->
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Listado de fiscalización</p>
                 </a>
               </li>
             </ul>
           </li>
          
-
           <li class="nav-item">
             <a href="{{ route('logout') }}" class="nav-link" style="background-color: brown" id=""
                onclick="event.preventDefault();
