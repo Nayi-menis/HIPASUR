@@ -7,7 +7,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Sistema de HIPASUR</title>
+  <title>HIPASUR.SAC</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -283,7 +283,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                <a href="{{url('admin/horarios/control')}}" class="nav-link"> <!--active para fondo blanco-->
                   <i class="far fa-circle nav-icon"></i>
                   <p>Control de asistencia de trabajadores</p>
                 </a>
@@ -364,13 +364,13 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{url('admin/horarios/create')}}" class="nav-link"> <!--active para fondo blanco-->
+                <a href="{{url('admin/vehiculos/create')}}" class="nav-link"> <!--active para fondo blanco-->
                   <i class="far fa-circle nav-icon"></i>
                   <p>Creación de vehículos</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{url('admin/horarios')}}" class="nav-link"> <!--active para fondo blanco-->
+                <a href="{{url('admin/vehiculos')}}" class="nav-link"> <!--active para fondo blanco-->
                   <i class="far fa-circle nav-icon"></i>
                   <p>Listado de vehículos</p>
                 </a>

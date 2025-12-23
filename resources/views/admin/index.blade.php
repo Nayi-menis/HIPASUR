@@ -38,7 +38,7 @@
             <div class="small-box bg-success">
               <div class="inner">
                 <h3>{{$total_pacientes}}</h3>
-                <p>Pacientes</p>
+                <p>Trabajadores</p>
               </div>
               <div class="icon">
                 <i class="ion ion-bag"><i class="fast bi bi-gitlab"></i></i>

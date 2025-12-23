@@ -45,14 +45,19 @@ Route::get('/admin/recursos/{id}/confirm-delete', [App\Http\Controllers\RecursoC
 Route::delete('/admin/recursos/{id}', [App\Http\Controllers\RecursoController::class, 'destroy'])->name('admin.recursos.destroy')->middleware('auth');
 
 #Rutas para el admin-horarios y turnos
-Route::get('/admin/horarios', [App\Http\Controllers\HorarioController::class, 'index'])->name('admin.horarios.index')->middleware('auth'); 
-Route::get('/admin/horarios/create', [App\Http\Controllers\HorarioController::class, 'create'])->name('admin.horarios.create')->middleware('auth'); 
-Route::post('/admin/horarios/create', [App\Http\Controllers\HorarioController::class, 'store'])->name('admin.horarios.store')->middleware('auth');
-Route::get('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'show'])->name('admin.horarios.show')->middleware('auth');
-Route::get('/admin/horarios/{id}/edit', [App\Http\Controllers\HorarioController::class, 'edit'])->name('admin.horarios.edit')->middleware('auth');
-Route::put('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'update'])->name('admin.horarios.update')->middleware('auth');
-Route::get('/admin/horarios/{id}/confirm-delete', [App\Http\Controllers\HorarioController::class, 'confirmDelete'])->name('admin.horarios.confirmDelete')->middleware('auth');
-Route::delete('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'destroy'])->name('admin.horarios.destroy')->middleware('auth');
+// 1. CONTROL DE ASISTENCIA (Círculo Naranja - Monitoreo de todos los trabajadores)
+Route::get('/admin/horarios/control', [App\Http\Controllers\HorarioController::class, 'control'])->name('admin.horarios.control');
+// 2. REGISTRO DE HORARIOS (Formulario para crear entradas)
+Route::get('/admin/horarios/create', [App\Http\Controllers\HorarioController::class, 'create'])->name('admin.horarios.create');
+Route::post('/admin/horarios', [App\Http\Controllers\HorarioController::class, 'store'])->name('admin.horarios.store');
+// 3. LISTADO DE HORARIOS (Historial y reportes técnicos de registros pasados)
+Route::get('/admin/horarios', [App\Http\Controllers\HorarioController::class, 'index'])->name('admin.horarios.index');
+// 4. FUNCIONES ADICIONALES (Ver, Editar y Eliminar)
+Route::get('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'show'])->name('admin.horarios.show');
+Route::get('/admin/horarios/{id}/edit', [App\Http\Controllers\HorarioController::class, 'edit'])->name('admin.horarios.edit');
+Route::put('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'update'])->name('admin.horarios.update');
+Route::get('/admin/horarios/{id}/confirm-delete', [App\Http\Controllers\HorarioController::class, 'confirmDelete'])->name('admin.horarios.confirm-delete');
+Route::delete('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'destroy'])->name('admin.horarios.destroy');
 
 #Rutas para el admin-produccion minera
 Route::get('/admin/produccion', [App\Http\Controllers\ProduccionController::class, 'index'])->name('admin.produccion.index')->middleware('auth'); 
@@ -74,3 +79,27 @@ Route::put('/admin/almacen/{id}', [App\Http\Controllers\AlmacenController::class
 Route::get('/admin/almacen/{id}/confirm-delete', [App\Http\Controllers\AlmacenController::class, 'confirmDelete'])->name('admin.almacen.confirmDelete')->middleware('auth');
 Route::delete('/admin/almacen/{id}', [App\Http\Controllers\AlmacenController::class, 'destroy'])->name('admin.almacen.destroy')->middleware('auth');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

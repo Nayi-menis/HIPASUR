@@ -90,12 +90,12 @@
                                           {
                                               text: 'Copiar',
                                               extend: 'copy',
-                                              title: 'SISBYN'
+                                              title: 'HIPASUR'
                                           },
                                           {
                                               extend: 'pdf',
                                               text: 'PDF',
-                                              title: 'SISBYN', // Título del PDF
+                                              title: 'HIPASUR', // Título del PDF
                                               orientation: 'portrait',
                                               pageSize: 'A4',
                                               exportOptions: {
@@ -105,17 +105,17 @@
                                           {
                                               extend: 'csv',
                                               text: 'CSV',
-                                              title: 'SISBYN', // Título del CSV
+                                              title: 'HIPASUR', // Título del CSV
                                           },
                                           {
                                               extend: 'excel',
                                               text: 'EXCEL',
-                                              title: 'SISBYN', // Título del Excel
+                                              title: 'HIPASUR', // Título del Excel
                                           },
                                           {
                                               text: 'Imprimir',
                                               extend: 'print',
-                                              title: 'SISBYN', // Título de la impresión
+                                              title: 'HIPASUR', // Título de la impresión
                                           }
                                       ]
                                   },

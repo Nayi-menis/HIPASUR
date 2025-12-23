@@ -9,10 +9,21 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+    public function up()
     {
         Schema::create('almacens', function (Blueprint $table) {
             $table->id();
+            $table->string('codigo')->unique();
+            $table->string('nombre');
+            $table->text('descripcion')->nullable();
+            $table->integer('stock');
+            $table->integer('stock_minimo'); // Alerta de reabastecimiento
+            $table->decimal('precio_unitario', 10, 2)->nullable();
+        
+            // Categorías: Víveres, Herramientas, Petróleo, EPP, etc.
+            $table->string('categoria'); 
+        
+            $table->string('unidad_medida'); // Kg, Galones, Unidades
             $table->timestamps();
         });
     }

@@ -3,108 +3,113 @@
 namespace App\Http\Controllers;
 
 use App\Models\Recurso;
-use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\Rule;
 
 class RecursoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $recursos = Recurso::with('user')->get();
         return view('admin.recursos.index', compact('recursos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         return view('admin.recursos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-     public function store(Request $request)
+    public function store(Request $request)
     {
-        /* $datos = request()->all();
-        return response()->json($datos); */
         $request->validate([
-            'nombres'=>'required',
-            'apellidos'=>'required',
+            'nombres' => 'required',
+            'apellidos' => 'required',
             'edad' => 'required',
-            'DNI'=>'required|unique:secretarias',
-            'celular'=>'required',
-            'fecha_nacimiento'=>'required',
-            'departamento'=>'required',
-            'provincia'=>'required',
-            'email'=>'required|max:250|unique:users',
-            #'password'=>'required|max:250|confirmed',
+            'DNI' => 'required|unique:recursos,DNI',
+            'celular' => 'required',
+            'fecha_nacimiento' => 'required',
+            'cuenta' => 'required|unique:recursos,cuenta',
+            'stc' => 'required|unique:recursos,stc',
+            'departamento' => 'required',
+            'provincia' => 'required',
+            'email' => 'required|email|unique:users,email',
         ]);
 
-        $usuario = new User();
-        $usuario->name = $request->nombres;
-        $usuario->email = $request->email;
-        #$usuario->password = Hash::make($request['password']);
-        $usuario->save();
+        DB::beginTransaction();
+        try {
+            // 1. Crear el Usuario vinculado
+            $usuario = new User();
+            $usuario->name = $request->nombres;
+            $usuario->email = $request->email;
+            // No asignamos password porque ya es nullable en la BD
+            $usuario->save();
 
-        $recurso = new Recurso();
-        $recurso->user_id = $usuario->id;
-        $recurso->nombres = $request->nombres;
-        $recurso->apellidos = $request->apellidos;
-        $recurso->edad = $request->edad;
-        $recurso->DNI = $request->DNI;
-        $recurso->celular = $request->celular;
-        $recurso->fecha_nacimiento = $request->fecha_nacimiento;
-        $recurso->departamento = $request->departamento;
-        $recurso->provincia = $request->provincia;
-        $recurso->save();
+            // 2. Crear el Recurso en el orden de tu tabla
+            $recurso = new Recurso();
+            $recurso->nombres = $request->nombres;
+            $recurso->apellidos = $request->apellidos;
+            $recurso->edad = $request->edad;
+            $recurso->DNI = $request->DNI;
+            $recurso->celular = $request->celular;
+            $recurso->fecha_nacimiento = $request->fecha_nacimiento;
+            $recurso->cuenta = $request->cuenta;
+            $recurso->stc = $request->stc;
+            $recurso->departamento = $request->departamento;
+            $recurso->provincia = $request->provincia;
+            $recurso->email = $request->email;
+            $recurso->user_id = $usuario->id;
+            $recurso->save();
 
-        return redirect()->route('admin.recursos.index')
-             ->with('mensaje', 'Se registro correctamente :D')
-             ->with('icono', 'success');
+            DB::commit();
+
+            return redirect()->route('admin.recursos.index')
+                 ->with('mensaje', 'Se registró correctamente al trabajador')
+                 ->with('icono', 'success');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                 ->with('mensaje', 'Error al registrar: ' . $e->getMessage())
+                 ->with('icono', 'error');
+        }
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
-        $recurso = Recurso::with('user')->findOrFail($id);
+        $recurso = Recurso::findOrFail($id);
         return view('admin.recursos.show', compact('recurso'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
-        $recurso = Recurso::with('user')->findOrFail($id);
+        $recurso = Recurso::findOrFail($id);
         return view('admin.recursos.edit', compact('recurso'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        $recurso = Recurso::find($id);       
+        $recurso = Recurso::find($id);
+        $usuario = User::find($recurso->user_id);
+
         $request->validate([
-            'nombres'=>'required',
-            'apellidos'=>'required',
-            'edad'=>'required',
-            'DNI'=>'required|unique:recursos,DNI,'.$recurso->id,
-            'celular'=>'required',
-            'fecha_nacimiento'=>'required',
-            'departamento'=>'required',
-            'provincia'=>'required',
-            'email'=>'required|max:250|unique:users,email,'.$recurso->user->id,
-            #'password'=>'nullable|max:250|confirmed',
+            'nombres' => 'required',
+            'apellidos' => 'required',
+            'edad' => 'required',
+            'DNI' => ['required', Rule::unique('recursos')->ignore($recurso->id)],
+            'celular' => 'required',
+            'fecha_nacimiento' => 'required',
+            'cuenta' => ['required', Rule::unique('recursos')->ignore($recurso->id)],
+            'stc' => ['required', Rule::unique('recursos')->ignore($recurso->id)],
+            'departamento' => 'required',
+            'provincia' => 'required',
+            'email' => ['required', 'email', Rule::unique('users')->ignore($usuario->id)],
         ]);
+
+        $usuario->name = $request->nombres;
+        $usuario->email = $request->email;
+        $usuario->save();
 
         $recurso->nombres = $request->nombres;
         $recurso->apellidos = $request->apellidos;
@@ -112,43 +117,34 @@ class RecursoController extends Controller
         $recurso->DNI = $request->DNI;
         $recurso->celular = $request->celular;
         $recurso->fecha_nacimiento = $request->fecha_nacimiento;
-        $recurso->departamento = $request->direccion;
-        $recurso->provincia = $request->direccion;
+        $recurso->cuenta = $request->cuenta;
+        $recurso->stc = $request->stc;
+        $recurso->departamento = $request->departamento;
+        $recurso->provincia = $request->provincia;
+        $recurso->email = $request->email;
         $recurso->save();
 
-        $usuario = User::find($recurso->user->id);
-        $usuario->name = $request->nombres;
-        $usuario->email = $request->email;
-        #if($request->filled('password')){
-        #   $usuario->password = Hash::make($request['password']);
-        #}
-        $usuario->save();
         return redirect()->route('admin.recursos.index')
-            ->with('mensaje', 'Se actualizo correctamente :D')
-            ->with('icono', 'success');
+             ->with('mensaje', 'Se actualizó correctamente')
+             ->with('icono', 'success');
     }
 
-    public function confirmDelete($id){
-        $recurso = Recurso::with('user')->findOrFail($id);
-        return view('admin.recursos.delete', compact('recurso'));
-        
+
+    public function confirmDelete($id)
+    {
+         $recurso = Recurso::findOrFail($id);
+         return view('admin.recursos.delete', compact('recurso'));
     }
-    
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
-        $recurso = Recurso::find($id);  
-        #eliminara al usurio asociado
-        $user = $recurso->user;
-        $user->delete();
-        #eliminara al trabajador asociado
-        $recurso->delete();
-
-        return redirect()->route('admin.usuarios.index')
-            ->with('mensaje', 'Se elimino correctamente :D')
+        $recurso = Recurso::findOrFail($id);
+        User::destroy($recurso->user_id); // Borra al usuario y por cascada al recurso
+        
+        return redirect()->route('admin.recursos.index')
+            ->with('mensaje', 'Se eliminó correctamente')
             ->with('icono', 'success');
     }
+
 
 }
