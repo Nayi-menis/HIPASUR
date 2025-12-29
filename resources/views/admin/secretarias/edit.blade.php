@@ -86,25 +86,7 @@
                       @enderror
                     </div>
                   </div> 
-                  <div class="col-md-4">
-                    <div class="form group">
-                      <label for="">Contraseña</label> 
-                      <input type="password" value="{{old('password')}}" name="password" class="form-control">
-                      @error('password')
-                      <small style="color: red">{{$message}}</small>
-                      @enderror
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="form group">
-                      <label for="">Repita su contraseña</label>
-                      <input type="password"  name="password_confirmation" class = "form-control">
-                      @error('password_confirmation')
-                      <small style="color: red">{{$message}}</small>
-                      @enderror
-                    </div>
-                  </div>
-                </div>
+                 </div> 
                 <br>
                 <div class="row">
                   <div class="col-md-8">

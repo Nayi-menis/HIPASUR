@@ -20,10 +20,12 @@ return new class extends Migration
             $table->string('stc', 30)->unique();
             $table->string('departamento', 100);
             $table->string('provincia', 100);
+            $table->string('cargo', 50);
+            $table->string('vehiculo_id', 50);
             $table->string('email')->unique();
 
             // Relación con tabla users
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->nullable()->unique();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
             $table->timestamps();
@@ -35,3 +37,4 @@ return new class extends Migration
         Schema::dropIfExists('recursos');
     }
 };
+

@@ -9,22 +9,23 @@ use App\Models\Recurso;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Secretaria;
+use App\Models\Pago;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
-    public function index(){
+    public function index()
+    {
+        $rol = Auth::user()->role;
+
+        // Datos para el Administrador
         $total_usuarios = User::count();
-        $total_secretarias = Secretaria::count();
-        $total_recursos = Recurso::count();
-        $total_produccion = Produccion::count();
-        $total_horarios = Horario::count();
-        $total_alamacen = Almacen::count();
-        return view('admin.usuarios.index'); 
-        return view('admin.index', compact('total_usuarios', 
-                  'total_secretarias',
-                  'total_recursos',
-                  'total_produccion', 
-                  'total_horarios',
-                  'total_almacen'));
+        $total_finanzas = Pago::sum('monto'); // Ejemplo: suma de ingresos
+
+        // Datos para Personal (Solo su producción propia)
+        $mi_produccion = \App\Models\Produccion::count();
+
+        return view('admin.index', compact('total_usuarios', 'total_finanzas', 'mi_produccion'));
     }
+
 }

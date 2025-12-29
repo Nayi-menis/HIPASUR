@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('fecha_nacimiento',100);
             $table->string('direccion',100);
 
-            $table->unsignedBigInteger('user_id');
+            $table->unsignedBigInteger('user_id')->unique()->nullable();
             $table->foreign('user_id')->references(('id'))->on('users')->onDelete('cascade');
 
             $table->timestamps();
@@ -35,3 +35,4 @@ return new class extends Migration
         Schema::dropIfExists('secretarias');
     }
 };
+

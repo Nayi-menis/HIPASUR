@@ -32,6 +32,13 @@
                   </div>
                 </div>
                 <br>
+                <div class="form-group">
+                    <label for="">Rol asignado:</label>
+                    <p>
+                        <span class="badge badge-info">{{ strtoupper($usuario->role) }}</span>
+                    </p>
+                </div>
+                <br>
                 <div class="row">
                   <div class="col-md-8">
                     <div class="form group">

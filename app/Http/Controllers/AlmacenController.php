@@ -5,24 +5,33 @@ namespace App\Http\Controllers;
 use App\Models\Almacen;
 use App\Models\Recurso; // Importante para las relaciones de personal
 use Illuminate\Http\Request;
+use App\Models\Movimiento;
+use App\Models\User;
 
 class AlmacenController extends Controller
 {
     /**
      * Muestra el listado de productos en el inventario.
      */
+    // En app/Http/Controllers/AlmacenController.php
+ // Asegúrate de importar el modelo User
+
     public function index()
     {
-        $productos = Almacen::all();
-        return view('admin.almacen.index', compact('productos'));
-    }
+    $productos = Almacen::all();
+      $movimientos = \App\Models\Movimiento::with(['user', 'almacen'])->latest()->take(10)->get();
+    $usuarios = \App\Models\User::orderBy('name', 'asc')->get();
+    $productosBajos = Almacen::where('stock', '<', 10)->get();
 
+    return view('admin.almacen.index', compact('productos', 'movimientos', 'usuarios','productosBajos'));
+    }
+    
     /**
      * Muestra el formulario para crear un nuevo producto.
      */
     public function create()
     {
-        $categorias = ['VÍVERES', 'HERRAMIENTAS', 'COMBUSTIBLE (PETRÓLEO)', 'EPP', 'REPUESTOS'];
+        $categorias = ['VÍVERES', 'HERRAMIENTAS', 'COMBUSTIBLE (PETRÓLEO)', 'EPP', 'REPUESTOS','OTROS'];
         return view('admin.almacen.create', compact('categorias'));
     }
 

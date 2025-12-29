@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Http\Request;
 
@@ -23,6 +25,14 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        $role = $user ? $user->role : null;
+
+        // Si un administrativo intenta entrar a /home, lo mandamos a su panel
+        if ($role == 'administrador' || $role == 'secretaria') {
+            return redirect('/admin');
+        }
+
+        return view('home'); // Solo el personal ve la pestaña con la imagen
     }
 }

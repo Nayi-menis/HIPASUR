@@ -1,12 +1,12 @@
 @extends('layouts.admin')
 @section('content')
   <div class="row">
-    <h1>Listado de Personal (Orden Base de Datos)</h1>
+    <h1>GESTIÓN DE RECURSOS HUMANOS</h1>
   </div>
   <hr>
 
   <div class="row">
-    <div class="col-md-28">
+    <div class="col-md-12">
         <div class="card card-outline card-primary">
           <div class="card-header">
             <h3 class="card-title">Trabajadores Registrados - HIPASUR</h3>
@@ -17,51 +17,62 @@
             </div>
           </div>
           
-          <div class="card-body">       
-            <table id="example1" class="table table-striped table-hover table-sm table-bordered">
-                <thead class="thead-dark">
-                  <tr>
-                    <th style="text-align: center">ID</th>
-                    <th style="text-align: center">Nombres</th>
-                    <th style="text-align: center">Apellidos</th>
-                    <th style="text-align: center">Edad</th>
-                    <th style="text-align: center">DNI</th>
-                    <th style="text-align: center">Celular</th>
-                    <th style="text-align: center">F.Nacimiento</th>
-                    <th style="text-align: center">Cuenta ICC</th>
-                    <th style="text-align: center">Cuenta STC</th>
-                    <th style="text-align: center">Departamento</th>
-                    <th style="text-align: center">Provincia</th>
-                    <th style="text-align: center">Email</th>
-                    <th style="text-align: center">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  @foreach ($recursos as $recurso)
-                      <tr>
-                        <td style="text-align: center">{{ $recurso->id }}</td>
-                        <td>{{ $recurso->nombres }}</td>
-                        <td>{{ $recurso->apellidos }}</td>
-                        <td style="text-align: center">{{ $recurso->edad }}</td>
-                        <td>{{ $recurso->DNI }}</td>
-                        <td>{{ $recurso->celular }}</td>
-                        <td>{{ $recurso->fecha_nacimiento }}</td>
-                        <td>{{ $recurso->cuenta }}</td>
-                        <td>{{ $recurso->stc }}</td>
-                        <td style="text-transform: uppercase;">{{ $recurso->departamento }}</td>
-                        <td style="text-transform: uppercase;">{{ $recurso->provincia }}</td>
-                        <td>{{ $recurso->user->email }}</td>
-                        <td style="text-align: center">
-                          <div class="btn-group" role="group">
-                            <a href="{{url('admin/recursos/'.$recurso->id)}}" class="btn btn-info btn-sm"><i class="bi bi-eye"></i></a>
-                            <a href="{{url('admin/recursos/'.$recurso->id.'/edit')}}" class="btn btn-success btn-sm"><i class="bi bi-pencil-square"></i></a>
-                            <a href="{{url('admin/recursos/'.$recurso->id.'/confirm-delete')}}" class="btn btn-danger btn-sm"><i class="bi bi-trash2"></i></a>
-                          </div>
+          <div class="card-body p-1"> 
+    <div class="table-responsive"> 
+        <table id="example1" class="table table-striped table-hover table-sm table-bordered" style="font-size: 0.85rem;">
+            <thead class="thead-dark">
+                <tr>
+                    <th class="text-center align-middle" style="width: 20px">ID</th>
+                    <th class="text-center align-middle">Nombre Completo</th>
+                    <th class="text-center align-middle">Cargo</th>
+                    <th class="text-center align-middle">Unidad</th>
+                    <th class="text-center align-middle">DNI</th>
+                    <th class="text-center align-middle">Celular</th>
+                    <th class="text-center align-middle">Cta. ICC</th> {{-- Nombre abreviado --}}
+                    <th class="text-center align-middle">Cta. STC</th> {{-- Nombre abreviado --}}
+                    <th class="text-center align-middle">Ubicación</th> {{-- Nombre abreviado --}}
+                    <th class="text-center align-middle">Email</th>
+                    <th class="text-center align-middle" style="width: 100px">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($recursos as $recurso)
+                    <tr>
+                        <td class="text-center align-middle">{{ $recurso->id }}</td>
+                        <td class="align-middle" style="white-space: nowrap;">{{ $recurso->nombres }} {{ $recurso->apellidos }}</td>
+                        
+                        <td class="text-center align-middle">
+                            <span class="badge badge-info" style="font-size: 0.7rem;">{{ strtoupper($recurso->cargo ?? 'N/A') }}</span>
                         </td>
-                      </tr>
-                  @endforeach
-                </tbody>
-            </table>
+                        
+                        <td class="text-center align-middle" style="line-height: 1;">
+                            @if($recurso->vehiculo)
+                                <b style="font-size: 0.75rem;">{{ $recurso->vehiculo->codigo_interno }}</b>
+                            @else
+                                <span class="text-muted small">Sin asignar</span>
+                            @endif
+                        </td>
+
+                        <td class="align-middle">{{ $recurso->DNI }}</td>
+                        <td class="align-middle">{{ $recurso->celular }}</td>
+                        <td class="align-middle small">{{ $recurso->cuenta }}</td>
+                        <td class="align-middle small">{{ $recurso->stc }}</td>
+                        <td class="align-middle small" style="text-transform: uppercase;">{{ $recurso->departamento }}</td>
+                        <td class="align-middle small">{{ $recurso->user->email }}</td>
+                        
+                        <td class="text-center align-middle">
+                            <div class="btn-group">
+                                <a href="{{url('admin/recursos/'.$recurso->id)}}" class="btn btn-info btn-xs"><i class="bi bi-eye"></i></a>
+                                <a href="{{url('admin/recursos/'.$recurso->id.'/edit')}}" class="btn btn-success btn-xs"><i class="bi bi-pencil-square"></i></a>
+                                <a href="{{url('admin/recursos/'.$recurso->id.'/confirm-delete')}}" class="btn btn-danger btn-xs"><i class="bi bi-trash2"></i></a>
+                            </div>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
 
             <script>
                 $(function () {
@@ -79,9 +90,23 @@
                               extend: 'collection',
                               text: 'Reportes',
                               buttons: [
-                                  { extend: 'pdf', title: 'REPORTE MAESTRO PERSONAL', orientation: 'landscape', pageSize: 'A4' },
-                                  { extend: 'excel', title: 'PERSONAL_DB_EXPORT' },
-                                  { extend: 'print', title: 'IMPRESIÓN GENERAL' }
+                                  { 
+                                    extend: 'pdf', 
+                                    title: 'REPORTE MAESTRO PERSONAL', 
+                                    orientation: 'landscape', 
+                                    pageSize: 'A4',
+                                    exportOptions: { columns: ':visible' } // Exporta solo columnas visibles
+                                  },
+                                  { 
+                                    extend: 'excel', 
+                                    title: 'PERSONAL_DB_EXPORT',
+                                    exportOptions: { columns: ':visible' }
+                                  },
+                                  { 
+                                    extend: 'print', 
+                                    title: 'IMPRESIÓN GENERAL',
+                                    exportOptions: { columns: ':visible' }
+                                  }
                               ]
                           },
                           { extend: 'colvis', text: 'Columnas' }

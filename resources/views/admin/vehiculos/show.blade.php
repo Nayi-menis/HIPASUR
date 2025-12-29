@@ -75,7 +75,7 @@
                         <div class="row mt-3">
                             <div class="col-12">
                                 <strong><i class="fas fa-file-alt mr-1"></i> Descripción / Notas</strong>
-                                <p class="text-muted">{{ $vehiculo->descripcion ?? 'Sin observaciones adicionales.' }}</p>
+                                <p class="text-muted">{{ $vehiculo->observaciones ?? 'Sin observaciones adicionales.' }}</p>
                             </div>
                         </div>
                     </div>

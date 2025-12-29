@@ -7,72 +7,54 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\Rule;
+use App\Models\Vehiculo; 
+
 
 class RecursoController extends Controller
 {
     public function index()
     {
-        $recursos = Recurso::with('user')->get();
+        $recursos = Recurso::with(['user', 'vehiculo'])->get(); 
         return view('admin.recursos.index', compact('recursos'));
     }
 
-    public function create()
+    public function create() 
     {
-        return view('admin.recursos.create');
+        $usuarios = \App\Models\User::where('role', 'personal')->whereDoesntHave('recurso')->get();
+        $vehiculos = \App\Models\Vehiculo::where('estado', 'OPERATIVO')->get(); // Solo vehículos listos
+        return view('admin.recursos.create', compact('usuarios', 'vehiculos'));
     }
-
+    
     public function store(Request $request)
     {
         $request->validate([
-            'nombres' => 'required',
-            'apellidos' => 'required',
-            'edad' => 'required',
-            'DNI' => 'required|unique:recursos,DNI',
-            'celular' => 'required',
-            'fecha_nacimiento' => 'required',
-            'cuenta' => 'required|unique:recursos,cuenta',
-            'stc' => 'required|unique:recursos,stc',
-            'departamento' => 'required',
-            'provincia' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'user_id' => 'required|unique:recursos,user_id',
+            'DNI'     => 'required|unique:recursos,DNI',
+            'cuenta'  => 'required|unique:recursos,cuenta',
+            'stc'     => 'required|unique:recursos,stc',
+            'email'   => 'required|email|unique:recursos,email',
+            'cargo'   => 'required',
+            'vehiculo_id' => 'required'
+        ], [
+            // Mensajes específicos para campos únicos
+            'user_id.unique' => 'Este usuario ya tiene un expediente de trabajador asignado.',
+            'DNI.unique'     => 'El número de DNI ya está registrado en el sistema.',
+            'cuenta.unique'  => 'Esta cuenta bancaria ya pertenece a otro trabajador.',
+            'stc.unique'     => 'La cuenta STC ya existe.',
+            'email.unique'   => 'Este correo electrónico ya está en uso.',
         ]);
 
-        DB::beginTransaction();
         try {
-            // 1. Crear el Usuario vinculado
-            $usuario = new User();
-            $usuario->name = $request->nombres;
-            $usuario->email = $request->email;
-            // No asignamos password porque ya es nullable en la BD
-            $usuario->save();
-
-            // 2. Crear el Recurso en el orden de tu tabla
-            $recurso = new Recurso();
-            $recurso->nombres = $request->nombres;
-            $recurso->apellidos = $request->apellidos;
-            $recurso->edad = $request->edad;
-            $recurso->DNI = $request->DNI;
-            $recurso->celular = $request->celular;
-            $recurso->fecha_nacimiento = $request->fecha_nacimiento;
-            $recurso->cuenta = $request->cuenta;
-            $recurso->stc = $request->stc;
-            $recurso->departamento = $request->departamento;
-            $recurso->provincia = $request->provincia;
-            $recurso->email = $request->email;
-            $recurso->user_id = $usuario->id;
+            $recurso = new \App\Models\Recurso();
+            $recurso->fill($request->all());
             $recurso->save();
 
-            DB::commit();
-
             return redirect()->route('admin.recursos.index')
-                 ->with('mensaje', 'Se registró correctamente al trabajador')
-                 ->with('icono', 'success');
+                ->with('mensaje', 'Se registró correctamente al trabajador')
+                ->with('icono', 'success');
 
         } catch (\Exception $e) {
-            DB::rollBack();
-            return redirect()->back()
-                 ->with('mensaje', 'Error al registrar: ' . $e->getMessage())
-                 ->with('icono', 'error');
+            return back()->withErrors(['error' => 'Error de base de datos: ' . $e->getMessage()])->withInput();
         }
     }
 
@@ -85,7 +67,11 @@ class RecursoController extends Controller
     public function edit($id)
     {
         $recurso = Recurso::findOrFail($id);
-        return view('admin.recursos.edit', compact('recurso'));
+        
+        // Obtener todos los vehículos para el select
+        $vehiculos = Vehiculo::all(); 
+        
+        return view('admin.recursos.edit', compact('recurso', 'vehiculos'));
     }
 
     public function update(Request $request, $id)
@@ -135,6 +121,7 @@ class RecursoController extends Controller
          $recurso = Recurso::findOrFail($id);
          return view('admin.recursos.delete', compact('recurso'));
     }
+    
 
     public function destroy($id)
     {

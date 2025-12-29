@@ -7,90 +7,84 @@ use Illuminate\Http\Request;
 
 class VehiculoController extends Controller
 {
-    /**
-     * Muestra el listado de vehículos/maquinaria.
-     */
+    // 1. Listado de vehículos
     public function index()
     {
         $vehiculos = Vehiculo::all();
         return view('admin.vehiculos.index', compact('vehiculos'));
     }
 
-    /**
-     * Muestra el formulario para registrar nueva maquinaria.
-     */
+    // 2. Formulario de creación
     public function create()
     {
         return view('admin.vehiculos.create');
     }
 
-    /**
-     * Almacena el vehículo en la base de datos.
-     */
+    // 3. Guardar el vehículo en la BD
     public function store(Request $request)
     {
         $request->validate([
-            'codigo_interno' => 'required|unique:vehiculos,codigo_interno',
-            'tipo'           => 'required',
-            'marca'          => 'required',
-            'modelo'         => 'required',
-            'estado'         => 'required'
+            'codigo_interno' => 'required|unique:vehiculos|max:50',
+            'tipo' => 'required',
+            'marca' => 'required',
+            'modelo' => 'required',
+            'horometro_actual' => 'required|numeric|min:0',
+            'estado' => 'required',
         ]);
 
         Vehiculo::create($request->all());
 
         return redirect()->route('admin.vehiculos.index')
-            ->with('mensaje', 'Vehículo/Maquinaria registrado con éxito')
+            ->with('mensaje', 'Vehículo registrado correctamente')
             ->with('icono', 'success');
     }
 
-    /**
-     * Muestra el detalle de un vehículo específico.
-     */
+    // 4. Ver detalles de un vehículo
     public function show($id)
     {
         $vehiculo = Vehiculo::findOrFail($id);
         return view('admin.vehiculos.show', compact('vehiculo'));
     }
 
-    /**
-     * Muestra el formulario para editar datos de la máquina.
-     */
+    // 5. Formulario de edición
     public function edit($id)
     {
         $vehiculo = Vehiculo::findOrFail($id);
         return view('admin.vehiculos.edit', compact('vehiculo'));
     }
 
-    /**
-     * Actualiza la información en la base de datos.
-     */
+    // 6. Actualizar datos
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'codigo_interno' => 'required|unique:vehiculos,codigo_interno,'.$id,
-            'tipo'           => 'required',
-            'estado'         => 'required'
-        ]);
-
         $vehiculo = Vehiculo::findOrFail($id);
+        $request->validate([
+            'codigo_interno' => 'required|max:50|unique:vehiculos,codigo_interno,',
+            'tipo' => 'required',
+            'marca' => 'required',
+            'modelo' => 'required',
+            'horometro_actual' => 'required|numeric',
+            'estado' => 'required',
+            'observaciones' => 'nullable|string',
+        ]);
         $vehiculo->update($request->all());
-
         return redirect()->route('admin.vehiculos.index')
-            ->with('mensaje', 'Información actualizada correctamente')
+            ->with('mensaje', 'Vehículo actualizado correctamente...')
             ->with('icono', 'success');
-    }
-
-    /**
-     * Elimina el registro de la unidad.
-     */
-    public function destroy($id)
+   }
+ 
+    public function confirmDelete($id)
     {
         $vehiculo = Vehiculo::findOrFail($id);
-        $vehiculo->delete();
+        return view('admin.vehiculos.delete', compact('vehiculo'));
+    }
+    
 
+    // 8. Eliminar de la base de datos
+    public function destroy($id)
+    {
+        Vehiculo::destroy($id);
         return redirect()->route('admin.vehiculos.index')
-            ->with('mensaje', 'Vehículo eliminado correctamente')
+            ->with('mensaje', 'Vehículo eliminado del sistema')
             ->with('icono', 'success');
     }
 }

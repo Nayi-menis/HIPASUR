@@ -87,5 +87,4 @@ class HorarioController extends Controller
         return view('admin.horarios.control', compact('trabajadores'));
     }
 
- 
-}
+ }

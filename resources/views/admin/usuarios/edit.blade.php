@@ -30,6 +30,23 @@
                 <br>
                 <div class="row">
                   <div class="col-md-8">
+                    <div class="form-group">
+                      <label for="role">Rol Asignado</label> <b>*</b>
+                      <select name="role" id="role" class="form-control" required>
+                        <option value="administrador" {{ $usuario->role == 'administrador' ? 'selected' : '' }}>Administrador (Acceso Total)</option>
+                        <option value="secretaria" {{ $usuario->role == 'secretaria' ? 'selected' : '' }}>Secretaría (Gestión de Oficina)</option>
+                        <option value="encargado" {{ $usuario->role == 'encargado' ? 'selected' : '' }}>Encargado (Gestión de Campo)</option>
+                        <option value="personal" {{ $usuario->role == 'personal' ? 'selected' : '' }}>Personal (Reportes de Campo)</option>
+                      </select>
+                      @error('role')
+                      <small style="color: red">{{$message}}</small>
+                      @enderror
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-md-8">
                     <div class="form group">
                       <label for="">Email</label> <b>*</b>
                       <input type="email" value="{{$usuario->email}}"  name="email" class="form-control" required>

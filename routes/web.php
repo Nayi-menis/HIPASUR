@@ -3,103 +3,128 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 
+// Importación de Controladores
+use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\SecretariaController;
+use App\Http\Controllers\RecursoController;
+use App\Http\Controllers\HorarioController;
+use App\Http\Controllers\ProduccionController;
+use App\Http\Controllers\AlmacenController;
+use App\Http\Controllers\VehiculoController;
+use App\Http\Controllers\PagoController;
+use App\Http\Controllers\SeguridadSaludController;
+use App\Http\Controllers\FiscalizacionController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MovimientoController;
+use App\Http\Controllers\ProveedorController;
+
+
+// RUTA PÚBLICA
 Route::get('/', function () {
     return view('index');
 });
 
-Auth::routes();
+// RUTAS DE AUTENTICACIÓN (Login, Register, etc.)
+Auth::routes(['register' => false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-#Rutas para el administrador
-Route::get('/admin', [App\Http\Controllers\AdminController::class, 'index'])->name('admin.index')
-    ->middleware('auth'); #no pueede entrar a la ruta si no tiene la autentificacion
+// RUTA HOME (ESTÁNDAR LARAVEL)
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-#Rutas para el admin-usuarios
-Route::get('/admin/usuarios', [App\Http\Controllers\UsuarioController::class, 'index'])->name('admin.usuarios.index')->middleware('auth'); 
-Route::get('/admin/usuarios/create', [App\Http\Controllers\UsuarioController::class, 'create'])->name('admin.usuarios.create')->middleware('auth'); 
-Route::post('/admin/usuarios/create', [App\Http\Controllers\UsuarioController::class, 'store'])->name('admin.usuarios.store')->middleware('auth');
-Route::get('/admin/usuarios/{id}', [App\Http\Controllers\UsuarioController::class, 'show'])->name('admin.usuarios.show')->middleware('auth');
-Route::get('/admin/usuarios/{id}/edit', [App\Http\Controllers\UsuarioController::class, 'edit'])->name('admin.usuarios.edit')->middleware('auth');
-Route::put('/admin/usuarios/{id}', [App\Http\Controllers\UsuarioController::class, 'update'])->name('admin.usuarios.update')->middleware('auth');
-Route::get('/admin/usuarios/{id}/confirm-delete', [App\Http\Controllers\UsuarioController::class, 'confirmDelete'])->name('admin.usuarios.confirmDelete')->middleware('auth');
-Route::delete('/admin/usuarios/{id}', [App\Http\Controllers\UsuarioController::class, 'destroy'])->name('admin.usuarios.destroy')->middleware('auth');
+// =========================================================================
+// GRUPO RAÍZ: ACCESO PARA CUALQUIER USUARIO AUTENTICADO
+// =========================================================================
+Route::middleware(['auth'])->group(function () {
+    
+    // Panel Principal (Dashboard)
+    Route::get('/admin', [AdminController::class, 'index'])->name('admin.index');
 
-#Rutas para el admin-secretarias
-Route::get('/admin/secretarias', [App\Http\Controllers\SecretariaController::class, 'index'])->name('admin.secretarias.index')->middleware('auth'); 
-Route::get('/admin/secretarias/create', [App\Http\Controllers\SecretariaController::class, 'create'])->name('admin.secretarias.create')->middleware('auth'); 
-Route::post('/admin/secretarias/create', [App\Http\Controllers\SecretariaController::class, 'store'])->name('admin.secretarias.store')->middleware('auth');
-Route::get('/admin/secretarias/{id}', [App\Http\Controllers\SecretariaController::class, 'show'])->name('admin.secretarias.show')->middleware('auth');
-Route::get('/admin/secretarias/{id}/edit', [App\Http\Controllers\SecretariaController::class, 'edit'])->name('admin.secretarias.edit')->middleware('auth');
-Route::put('/admin/secretarias/{id}', [App\Http\Controllers\SecretariaController::class, 'update'])->name('admin.secretarias.update')->middleware('auth');
-Route::get('/admin/secretarias/{id}/confirm-delete', [App\Http\Controllers\SecretariaController::class, 'confirmDelete'])->name('admin.secretarias.confirmDelete')->middleware('auth');
-Route::delete('/admin/secretarias/{id}', [App\Http\Controllers\SecretariaController::class, 'destroy'])->name('admin.secretarias.destroy')->middleware('auth');
+    // -------------------------------------------------------------------------
+    // NIVEL 1: SOLO ADMINISTRADOR (Gestión de Cuentas y Finanzas)
+    // -------------------------------------------------------------------------
+    Route::middleware(['role:administrador'])->group(function () {
+        // Usuarios
+        Route::get('/admin/usuarios', [UsuarioController::class, 'index'])->name('admin.usuarios.index');
+        Route::get('/admin/usuarios/create', [UsuarioController::class, 'create'])->name('admin.usuarios.create');
+        Route::post('/admin/usuarios/store', [UsuarioController::class, 'store'])->name('admin.usuarios.store');
+        Route::get('/admin/usuarios/{id}', [UsuarioController::class, 'show'])->name('admin.usuarios.show');
+        Route::get('/admin/usuarios/{id}/edit', [UsuarioController::class, 'edit'])->name('admin.usuarios.edit');
+        Route::put('/admin/usuarios/{id}', [UsuarioController::class, 'update'])->name('admin.usuarios.update');
+        Route::get('/admin/usuarios/{id}/confirm-delete', [UsuarioController::class, 'confirmDelete'])->name('admin.usuarios.confirmDelete');
+        Route::delete('/admin/usuarios/{id}', [UsuarioController::class, 'destroy'])->name('admin.usuarios.destroy');
+        
+        // Pagos / Finanzas
+        Route::get('/admin/pagos', [PagoController::class, 'index'])->name('admin.pagos.index');
+        Route::get('/admin/pagos/create', [PagoController::class, 'create'])->name('admin.pagos.create');
+        Route::post('/admin/pagos/store', [PagoController::class, 'store'])->name('admin.pagos.store');
+        Route::get('/admin/pagos/{id}', [PagoController::class, 'show'])->name('admin.pagos.show');
+        Route::get('/admin/pagos/{id}/edit', [PagoController::class, 'edit'])->name('admin.pagos.edit');
+        Route::put('/admin/pagos/{id}', [PagoController::class, 'update'])->name('admin.pagos.update');
+        Route::get('/admin/pagos/{id}/confirm-delete', [PagoController::class, 'confirmDelete'])->name('admin.pagos.confirmDelete');
+        Route::delete('/admin/pagos/{id}', [PagoController::class, 'destroy'])->name('admin.pagos.destroy');
+        
+        // Rutas para Proveedores
+        Route::get('/admin/proveedores', [ProveedorController::class, 'index'])->name('admin.proveedores.index');
+        Route::get('/admin/proveedores/create', [ProveedorController::class, 'create'])->name('admin.proveedores.create');
+        Route::post('/admin/proveedores/store', [ProveedorController::class, 'store'])->name('admin.proveedores.store');
 
-#Rutas para el admin-recursos humanos
-Route::get('/admin/recursos', [App\Http\Controllers\RecursoController::class, 'index'])->name('admin.recursos.index')->middleware('auth'); 
-Route::get('/admin/recursos/create', [App\Http\Controllers\RecursoController::class, 'create'])->name('admin.recursos.create')->middleware('auth'); 
-Route::post('/admin/recursos/create', [App\Http\Controllers\RecursoController::class, 'store'])->name('admin.recursos.store')->middleware('auth');
-Route::get('/admin/recursos/{id}', [App\Http\Controllers\RecursoController::class, 'show'])->name('admin.recursos.show')->middleware('auth');
-Route::get('/admin/recursos/{id}/edit', [App\Http\Controllers\RecursoController::class, 'edit'])->name('admin.recursos.edit')->middleware('auth');
-Route::put('/admin/recursos/{id}', [App\Http\Controllers\RecursoController::class, 'update'])->name('admin.recursos.update')->middleware('auth');
-Route::get('/admin/recursos/{id}/confirm-delete', [App\Http\Controllers\RecursoController::class, 'confirmDelete'])->name('admin.recursos.confirmDelete')->middleware('auth');
-Route::delete('/admin/recursos/{id}', [App\Http\Controllers\RecursoController::class, 'destroy'])->name('admin.recursos.destroy')->middleware('auth');
+        Route::get('/admin/pagos/{id}/pdf', [App\Http\Controllers\PagoController::class, 'generarPDF'])->name('admin.pagos.pdf');
+        
+    });
 
-#Rutas para el admin-horarios y turnos
-// 1. CONTROL DE ASISTENCIA (Círculo Naranja - Monitoreo de todos los trabajadores)
-Route::get('/admin/horarios/control', [App\Http\Controllers\HorarioController::class, 'control'])->name('admin.horarios.control');
-// 2. REGISTRO DE HORARIOS (Formulario para crear entradas)
-Route::get('/admin/horarios/create', [App\Http\Controllers\HorarioController::class, 'create'])->name('admin.horarios.create');
-Route::post('/admin/horarios', [App\Http\Controllers\HorarioController::class, 'store'])->name('admin.horarios.store');
-// 3. LISTADO DE HORARIOS (Historial y reportes técnicos de registros pasados)
-Route::get('/admin/horarios', [App\Http\Controllers\HorarioController::class, 'index'])->name('admin.horarios.index');
-// 4. FUNCIONES ADICIONALES (Ver, Editar y Eliminar)
-Route::get('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'show'])->name('admin.horarios.show');
-Route::get('/admin/horarios/{id}/edit', [App\Http\Controllers\HorarioController::class, 'edit'])->name('admin.horarios.edit');
-Route::put('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'update'])->name('admin.horarios.update');
-Route::get('/admin/horarios/{id}/confirm-delete', [App\Http\Controllers\HorarioController::class, 'confirmDelete'])->name('admin.horarios.confirm-delete');
-Route::delete('/admin/horarios/{id}', [App\Http\Controllers\HorarioController::class, 'destroy'])->name('admin.horarios.destroy');
+    // -------------------------------------------------------------------------
+    // NIVEL 2: ADMINISTRADOR, SECRETARIA Y ENCARGADO (Gestión Administrativa)
+    // -------------------------------------------------------------------------
+    Route::middleware(['role:administrador,secretaria,encargado'])->group(function () {
+        
+        // Módulo de Secretarias (Ahora accesible por el Encargado)
+        Route::get('/admin/secretarias', [SecretariaController::class, 'index'])->name('admin.secretarias.index');
+        Route::get('/admin/secretarias/create', [SecretariaController::class, 'create'])->name('admin.secretarias.create');
+        Route::post('/admin/secretarias/create', [SecretariaController::class, 'store'])->name('admin.secretarias.store');
+        Route::get('/admin/secretarias/{id}', [SecretariaController::class, 'show'])->name('admin.secretarias.show');
+        Route::get('/admin/secretarias/{id}/edit', [SecretariaController::class, 'edit'])->name('admin.secretarias.edit');
+        Route::put('/admin/secretarias/{id}', [SecretariaController::class, 'update'])->name('admin.secretarias.update');
+        Route::get('/admin/secretarias/{id}/confirm-delete', [SecretariaController::class, 'confirmDelete'])->name('admin.secretarias.confirmDelete');
+        Route::delete('/admin/secretarias/{id}', [SecretariaController::class, 'destroy'])->name('admin.secretarias.destroy');
 
-#Rutas para el admin-produccion minera
-Route::get('/admin/produccion', [App\Http\Controllers\ProduccionController::class, 'index'])->name('admin.produccion.index')->middleware('auth'); 
-Route::get('/admin/produccion/create', [App\Http\Controllers\ProduccionController::class, 'create'])->name('admin.produccion.create')->middleware('auth'); 
-Route::post('/admin/produccion/create', [App\Http\Controllers\ProduccionController::class, 'store'])->name('admin.produccion.store')->middleware('auth');
-Route::get('/admin/produccion/{id}', [App\Http\Controllers\ProduccionController::class, 'show'])->name('admin.produccion.show')->middleware('auth');
-Route::get('/admin/produccion/{id}/edit', [App\Http\Controllers\ProduccionController::class, 'edit'])->name('admin.produccion.edit')->middleware('auth');
-Route::put('/admin/produccion/{id}', [App\Http\Controllers\ProduccionController::class, 'update'])->name('admin.produccion.update')->middleware('auth');
-Route::get('/admin/produccion/{id}/confirm-delete', [App\Http\Controllers\ProduccionController::class, 'confirmDelete'])->name('admin.produccion.confirmDelete')->middleware('auth');
-Route::delete('/admin/produccion/{id}', [App\Http\Controllers\ProduccionController::class, 'destroy'])->name('admin.produccion.destroy')->middleware('auth');
+        // Recursos Humanos (Personal)
+        Route::get('/admin/recursos', [RecursoController::class, 'index'])->name('admin.recursos.index');
+        Route::get('/admin/recursos/create', [RecursoController::class, 'create'])->name('admin.recursos.create');
+        Route::post('/admin/recursos', [App\Http\Controllers\RecursoController::class, 'store'])->name('admin.recursos.store');
+        Route::get('/admin/recursos/{id}', [RecursoController::class, 'show'])->name('admin.recursos.show');
+        Route::get('/admin/recursos/{id}/edit', [RecursoController::class, 'edit'])->name('admin.recursos.edit');
+        Route::put('/admin/recursos/{id}', [RecursoController::class, 'update'])->name('admin.recursos.update');
+        Route::get('/admin/recursos/{id}/confirm-delete', [RecursoController::class, 'confirmDelete'])->name('admin.recursos.confirmDelete');
+        Route::delete('/admin/recursos/{id}', [RecursoController::class, 'destroy'])->name('admin.recursos.destroy');
 
-#Rutas para el admin-almacen e inventario
-Route::get('/admin/almacen', [App\Http\Controllers\AlmacenController::class, 'index'])->name('admin.almacen.index')->middleware('auth'); 
-Route::get('/admin/almacen/create', [App\Http\Controllers\AlmacenController::class, 'create'])->name('admin.almacen.create')->middleware('auth'); 
-Route::post('/admin/almacen/create', [App\Http\Controllers\AlmacenController::class, 'store'])->name('admin.almacen.store')->middleware('auth');
-Route::get('/admin/almacen/{id}', [App\Http\Controllers\AlmacenController::class, 'show'])->name('admin.almacen.show')->middleware('auth');
-Route::get('/admin/almacen/{id}/edit', [App\Http\Controllers\AlmacenController::class, 'edit'])->name('admin.almacen.edit')->middleware('auth');
-Route::put('/admin/almacen/{id}', [App\Http\Controllers\AlmacenController::class, 'update'])->name('admin.almacen.update')->middleware('auth');
-Route::get('/admin/almacen/{id}/confirm-delete', [App\Http\Controllers\AlmacenController::class, 'confirmDelete'])->name('admin.almacen.confirmDelete')->middleware('auth');
-Route::delete('/admin/almacen/{id}', [App\Http\Controllers\AlmacenController::class, 'destroy'])->name('admin.almacen.destroy')->middleware('auth');
+        // Horarios (Orden prioritario para evitar 404)
+        Route::get('/admin/horarios/control', [HorarioController::class, 'control'])->name('admin.horarios.control');
+        Route::resource('admin/horarios', HorarioController::class)->names('admin.horarios');
+        
+        // Fiscalización y Almacén
+        Route::resource('admin/fiscalizacion', FiscalizacionController::class)->names('admin.fiscalizacion');
+        
 
+    });
 
-Auth::routes();
+    // -------------------------------------------------------------------------
+    // NIVEL 3: ACCESO OPERATIVO (Todos los Roles + Encargado)
+    // -------------------------------------------------------------------------
+    Route::middleware(['role:administrador,secretaria,personal,encargado'])->group(function () {
+        // Producción Minera
+        Route::resource('admin/produccion', ProduccionController::class)->names('admin.produccion');
+        Route::get('/admin/produccion/{id}/confirm-delete', [ProduccionController::class, 'confirmDelete'])->name('admin.produccion.confirmDelete');
+        
+        // Vehículos y Maquinaria
+        Route::resource('admin/vehiculos', VehiculoController::class)->names('admin.vehiculos');
+        Route::get('/admin/vehiculos/{id}/confirm-delete', [VehiculoController::class, 'confirmDelete'])->name('admin.vehiculos.confirmDelete');
+        
+        // Seguridad y Salud
+        Route::resource('admin/seguridad', SeguridadSaludController::class)->names('admin.seguridad');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::post('/admin/movimientos', [MovimientoController::class, 'store'])->name('movimientos.store');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+        Route::resource('admin/almacen', AlmacenController::class)->names('admin.almacen');
+    });
+       
+});

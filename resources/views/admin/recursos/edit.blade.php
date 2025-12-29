@@ -7,16 +7,17 @@
   <hr>
 
   <div class="row">
-    <div class="col-md-16">
+    <div class="col-md-12">
         <div class="card card-outline card-success">
             <div class="card-header">
-                <h3 class="card-title">Modificar los datos necesarios</h3>
+                <h3 class="card-title text-bold">Modificar los datos necesarios</h3>
             </div>
           <div class="card-body">
             <form action="{{url('/admin/recursos', $recurso->id)}}" method="POST">
                 @csrf
                 @method('PUT')
                 
+                {{-- FILA 1: NOMBRES, APELLIDOS Y EDAD --}}
                 <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
@@ -47,7 +48,7 @@
                   </div>
                 </div>
 
-                <br>
+                {{-- FILA 2: DNI, CELULAR Y FECHA DE NACIMIENTO --}}
                 <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
@@ -78,7 +79,36 @@
                   </div>
                 </div>
 
-                <br>
+                {{-- FILA 3: CARGO Y VEHÍCULO (NUEVOS CAMPOS) --}}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Cargo</label> <b>*</b>
+                            <input type="text" value="{{old('cargo', $recurso->cargo)}}" name="cargo" class="form-control" required>
+                            @error('cargo')
+                            <small style="color: red">{{$message}}</small>
+                            @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Vehículo / Unidad Asignada</label>
+                            <select name="vehiculo_id" class="form-control">
+                                <option value="">-- Seleccione una unidad --</option>
+                                @foreach($vehiculos as $vehiculo)
+                                    <option value="{{ $vehiculo->id }}" {{ (old('vehiculo_id', $recurso->vehiculo_id) == $vehiculo->id) ? 'selected' : '' }}>
+                                        {{ $vehiculo->codigo_interno }} - {{ $vehiculo->tipo }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            @error('vehiculo_id')
+                            <small style="color: red">{{$message}}</small>
+                            @enderror
+                        </div>
+                    </div>
+                </div>
+
+                {{-- FILA 4: CUENTAS Y EMAIL --}}
                 <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
@@ -101,7 +131,11 @@
                   <div class="col-md-4">
                    <div class="form-group">
                      <label for="">Email</label> <b>*</b>
-                     <input type="email" value="{{old('email', $recurso->user->email)}}" name="email" class="form-control" required>
+                     @if(Auth::user()->role == 'administrador')
+                       <input type="email" value="{{old('email', $recurso->user->email)}}" name="email" class="form-control" required>
+                     @else
+                       <input type="email" value="{{ $recurso->user->email }}" name="email" class="form-control" readonly style="background-color: #e9ecef;">
+                     @endif
                      @error('email')
                      <small style="color: red">{{$message}}</small>
                      @enderror
@@ -109,7 +143,7 @@
                   </div> 
                 </div>
 
-                <br>
+                {{-- FILA 5: UBICACIÓN --}}
                 <div class="row">
                   <div class="col-md-4">
                     <div class="form-group">
@@ -131,12 +165,14 @@
                   </div>
                 </div>
 
-                <br>
+                <hr>
                 <div class="row">
                   <div class="col-md-12">
                     <div class="form-group">
-                      <a href="{{url('admin/recursos')}}" class="btn btn-secondary">Cancelar</a>
-                      <button type="submit" class="btn btn-success">Actualizar Trabajador</button>
+                      <a href="{{url('admin/recursos')}}" class="btn btn-secondary shadow-sm">Cancelar</a>
+                      <button type="submit" class="btn btn-success shadow-sm ml-2">
+                          <i class="fas fa-save"></i> Actualizar Trabajador
+                      </button>
                     </div>
                   </div>
                 </div>

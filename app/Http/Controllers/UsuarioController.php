@@ -8,8 +8,13 @@ use App\Models\User;
 
 class UsuarioController extends Controller
 {
-    public function index (){
-        $usuarios = User::all();
+
+    
+    public function index()
+    {
+        // Esto trae a todos los usuarios con sus columnas actualizadas (incluyendo 'role')
+        $usuarios = \App\Models\User::all();
+        
         return view('admin.usuarios.index', compact('usuarios'));
     }
 
@@ -17,24 +22,27 @@ class UsuarioController extends Controller
         return view('admin.usuarios.create');
     }
 
-    public function store (Request $request){
-        /* $datos = request()->all();
-        return response()->json($datos); */
+   public function store(Request $request)
+    {
         $request->validate([
-            'name'=>'required|max:250',
-            'email'=>'required|max:250|unique:users',
-            'password'=>'required|max:250|confirmed',
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            // Actualizamos la lista para que coincida con lo que envías en la vista
+            'role' => 'required|in:ADMINISTRADOR,SECRETARIA,TRABAJADOR,PERSONAL,ENCARGADO,administrador,secretaria,personal,encargado',
         ]);
 
-        $usuario = new User();
-        $usuario->name = $request->name;
-        $usuario->email = $request->email;
-        $usuario->password = Hash::make($request['password']);
-        $usuario->save();
+        // 2. Creamos el usuario
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password), 
+            'role' => strtoupper($request->role), // Lo guardamos siempre en mayúsculas para estandarizar
+        ]);
 
         return redirect()->route('admin.usuarios.index')
-            ->with('mensaje', 'Se registro correctamente :D')
-            ->with('icono', 'success');
+                        ->with('mensaje', 'Usuario registrado correctamente')
+                        ->with('icono', 'success');
     }
 
     public function show($id){
@@ -55,9 +63,11 @@ class UsuarioController extends Controller
             'name'=>'required|max:250',
             'email'=>'required|max:250|unique:users,email,' .$usuario->id,
             'password'=>'nullable|max:250|confirmed',
+            'role'=>'required|in:administrador,secretaria,personal,encargado',
         ]);
         $usuario->name = $request->name;
         $usuario->email = $request->email;
+        $usuario->role = $request->role;
         if($request->filled('password')){
             $usuario->password = Hash::make($request['password']);
         }
@@ -81,3 +91,4 @@ class UsuarioController extends Controller
 
     }
 }
+

@@ -21,16 +21,26 @@ class Recurso extends Model
         'stc',
         'departamento',
         'provincia',
-        'user_id'
+        'email',
+        'user_id',
+        'cargo', 
+        'vehiculo_id'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function horarios()
     {
         return $this->hasMany(Horario::class, 'recurso_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function vehiculo() 
+    {
+        return $this->belongsTo(Vehiculo::class, 'vehiculo_id');
+    }
+
 }
+

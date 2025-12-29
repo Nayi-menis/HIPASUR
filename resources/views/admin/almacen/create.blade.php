@@ -46,6 +46,7 @@
                                             <option value="COMBUSTIBLE">COMBUSTIBLE (PETRÓLEO)</option>
                                             <option value="EPP">EPP (SEGURIDAD)</option>
                                             <option value="REPUESTOS">REPUESTOS</option>
+                                            <option value="OTROS">OTROS</option>
                                         </select>
                                     </div>
                                 </div>
@@ -74,6 +75,7 @@
                                             <option value="KILOS">KILOS</option>
                                             <option value="LITROS">LITROS</option>
                                             <option value="PAQUETES">PAQUETES</option>
+                                            <option value="OTROS">OTROS</option>
                                         </select>
                                     </div>
                                 </div>

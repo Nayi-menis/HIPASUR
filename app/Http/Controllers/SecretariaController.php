@@ -21,9 +21,15 @@ class SecretariaController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+
     public function create()
     {
-        return view('admin.secretarias.create');
+        $usuarios = \App\Models\User::whereIn('role', ['secretaria', 'encargado'])
+                    ->whereDoesntHave('secretaria') 
+                    ->get();
+
+        return view('admin.secretarias.create', compact('usuarios'));
     }
 
     /**
@@ -34,35 +40,30 @@ class SecretariaController extends Controller
         /* $datos = request()->all();
         return response()->json($datos); */
         $request->validate([
+            'user_id'=> 'required|unique:secretarias,user_id',
             'nombres'=>'required',
             'apellidos'=>'required',
-            'DNI'=>'required|unique:secretarias',
+            'DNI'=> 'required|unique:secretarias,DNI',
             'celular'=>'required',
             'fecha_nacimiento'=>'required',
             'direccion'=>'required',
-            'email'=>'required|max:250|unique:users',
-            'password'=>'required|max:250|confirmed',
+ 
         ]);
 
-        $usuario = new User();
-        $usuario->name = $request->nombres;
-        $usuario->email = $request->email;
-        $usuario->password = Hash::make($request['password']);
-        $usuario->save();
-
-        $secretaria = new Secretaria();
-        $secretaria->user_id = $usuario->id;
+        // 2. Creación MANUAL (Esta forma no falla)
+        $secretaria = new \App\Models\Secretaria();
+        $secretaria->user_id = $request->user_id;
         $secretaria->nombres = $request->nombres;
         $secretaria->apellidos = $request->apellidos;
-        $secretaria->DNI = $request->DNI;
+        $secretaria->DNI = $request->DNI; // Forzamos la mayúscula aquí
         $secretaria->celular = $request->celular;
         $secretaria->fecha_nacimiento = $request->fecha_nacimiento;
         $secretaria->direccion = $request->direccion;
         $secretaria->save();
 
         return redirect()->route('admin.secretarias.index')
-             ->with('mensaje', 'Se registro correctamente :D')
-             ->with('icono', 'success');
+            ->with(['mensaje' => 'Se registro correctamente :D', 'icono' => 'success']);
+
     }
 
     /**

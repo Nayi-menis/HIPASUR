@@ -9,16 +9,9 @@ class Almacen extends Model
 {
     use HasFactory;
 
-    protected $table = 'almacens'; // Forzamos el nombre de la tabla
-
+    // Esto es vital para que el método store() funcione
     protected $fillable = [
-        'codigo', 
-        'nombre', 
-        'descripcion', 
-        'stock', 
-        'stock_minimo', 
-        'precio_unitario', 
-        'categoria', 
-        'unidad_medida'
+        'codigo', 'nombre', 'descripcion', 'stock', 
+        'stock_minimo', 'precio_unitario', 'categoria', 'unidad_medida'
     ];
 }
