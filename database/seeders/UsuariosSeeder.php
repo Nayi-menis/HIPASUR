@@ -27,7 +27,7 @@ class UsuariosSeeder extends Seeder
         \App\Models\User::create([
             'name' => $u['name'],
             'email' => $u['email'],
-            'password' => bcrypt('password123'), // Todos tendrán esta clave inicial
+            'password' => bcrypt('12345678'), // Todos tendrán esta clave inicial
             'role' => 'admin'
         ]);
     }
