@@ -19,7 +19,7 @@
                     <div class="card-header">
                         <h3 class="card-title">Datos del Registro</h3>
                     </div>
-                    <form action="{{url('admin/seguridad/create') }}" method="POST">
+                    <form action="{{ route('admin.seguridad.store') }}" method="POST">
                         @csrf
                         <div class="card-body">
                             <div class="row">
