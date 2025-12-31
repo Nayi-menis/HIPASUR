@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View; 
 use App\Models\Almacen; 
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -29,5 +30,10 @@ class AppServiceProvider extends ServiceProvider
                     ->with('totalNotificaciones', $productosBajoStock->count());
             }
         });
+
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
     }
+}
+
 }

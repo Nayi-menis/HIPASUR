@@ -91,10 +91,10 @@ El sistema viene precargado con los siguientes usuarios para pruebas (definidos 
 
 | Rol | Correo Electrónico | Contraseña |
 | :--- | :--- | :--- |
-| **Administrador** | `admin1@admin.com` | `12345678` |
-| **Secretaria** | `secretaria@admin.com` | `12345678` |
-| **Trabajador** | `personal@admin.com` | `12345678` |
-| **Encargado** | `encargado@admin.com` | `12345678` |
+| **Administrador** | `administrador@gmail.com` | `12345678` |
+| **Secretaria** | `secretaria@gmail.com` | `12345678` |
+| **Trabajador** | `personal@gmail.com` | `12345678` |
+| **Encargado** | `encargado@gmail.com` | `12345678` |
 | 
 
 > [!WARNING]
