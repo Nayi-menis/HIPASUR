@@ -1,0 +1,97 @@
+// Configuración Global
+Project HIPASUR_SAC {
+  database_type: 'MySQL'
+  Note: 'Estructura de base de datos para gestión minera'
+}
+
+// --- Módulo de Usuarios y Accesos ---
+Table users {
+  id integer [primary key, increment]
+  name varchar
+  email varchar [unique]
+  password varchar
+  role varchar // [ADMINISTRADOR, ENCARGADO, PERSONAL]
+  created_at timestamp
+}
+
+// --- Módulo de RRHH ---
+Table recursos {
+  id integer [primary key, increment]
+  nombres varchar
+  apellidos varchar
+  dni varchar [unique]
+  cargo varchar
+  fecha_ingreso date
+}
+
+Table horarios {
+  id integer [primary key, increment]
+  recurso_id integer
+  turno varchar // [DIA, NOCHE]
+  entrada datetime
+  salida datetime
+}
+
+// --- Módulo de Operaciones ---
+Table produccions {
+  id integer [primary key, increment]
+  recurso_id integer
+  zona_veta varchar
+  mineral_tipo varchar
+  cantidad_tn decimal
+  fecha date
+}
+
+Table fiscalizacions {
+  id integer [primary key, increment]
+  produccion_id integer
+  observaciones text
+  estado varchar
+}
+
+// --- Módulo de Logística ---
+Table almacens {
+  id integer [primary key, increment]
+  nombre_producto varchar
+  categoria varchar // [HERRAMIENTAS, VIVERES, COMBUSTIBLE]
+  stock_actual decimal
+  stock_minimo decimal
+}
+
+Table movimientos {
+  id integer [primary key, increment]
+  almacen_id integer
+  tipo_movimiento varchar // [ENTRADA, SALIDA]
+  cantidad decimal
+  fecha timestamp
+}
+
+Table vehiculos {
+  id integer [primary key, increment]
+  placa varchar
+  modelo varchar
+  estado varchar 
+}
+
+// --- Módulo Financiero ---
+Table pagos {
+  id integer [primary key, increment]
+  recurso_id integer
+  monto decimal
+  fecha_pago date
+  estado_pago varchar
+}
+
+Table proveedors {
+  id integer [primary key, increment]
+  razon_social varchar
+  ruc varchar
+  contacto varchar
+}
+
+// --- Definición de Relaciones (Foreign Keys) ---
+Ref: horarios.recurso_id > recursos.id
+Ref: produccions.recurso_id > recursos.id
+Ref: fiscalizacions.produccion_id > produccions.id
+Ref: movimientos.almacen_id > almacens.id
+Ref: pagos.recurso_id > recursos.id

@@ -1,61 +1,107 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# HIPASUR - Sistema de Gestión Minera
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Hipasur** es una plataforma integral desarrollada en Laravel para la gestión y administración de operaciones mineras. El sistema permite controlar eficientemente los recursos humanos, la producción, la logística y las finanzas de la empresa.
 
-## About Laravel
+## Características Principales
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+El sistema cuenta con un panel administrativo robusto y gestión de roles (Administrador, Secretaria, Encargado, Personal) para controlar el acceso a los diferentes módulos:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### Gestión Administrativa
+*   **Usuarios:** Administración completa de cuentas de usuario y roles.
+*   **Recursos Humanos:** Gestión de personal, contratos y asistencia.
+*   **Secretaría:** Módulo dedicado para labores administrativas.
+*   **Proveedores:** Registro y gestión de proveedores de la empresa.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Operaciones Mineras
+*   **Producción:** Registro y seguimiento de la producción minera diaria.
+*   **Movimientos:** Control de movimientos de material y recursos.
+*   **Fiscalización:** Herramientas para el control y fiscalización de actividades.
 
-## Learning Laravel
+### Logística y Activos
+*   **Vehículos y Maquinaria:** Inventario y control de flota.
+*   **Almacén:** Gestión de inventario de almacén.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Finanzas
+*   **Pagos:** Gestión de pagos y transacciones.
+*   **Reportes PDF:** Generación de comprobantes y reportes.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+### Seguridad
+*   **Seguridad y Salud:** Módulo para el cumplimiento de normativas de seguridad y salud ocupacional (SSO).
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## Stack Tecnológico
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+*   **Backend:** [Laravel 12.x](https://laravel.com) (PHP 8.2+)
+*   **Frontend:** [Bootstrap 5](https://getbootstrap.com/), Blade Templates
+*   **Build Tool:** [Vite](https://vitejs.dev)
+*   **Base de Datos:** MySQL / MariaDB
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+## Instalación y Configuración
 
-## Contributing
+Sigue estos pasos para levantar el proyecto en tu entorno local:
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+1.  **Clonar el repositorio**
+    ```bash
+    git clone <https://github.com/Nayi-menis/HIPASUR.git>
+    cd hipasur
+    ```
 
-## Code of Conduct
+2.  **Instalar dependencias de PHP**
+    ```bash
+    composer install
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3.  **Instalar dependencias de Frontend**
+    ```bash
+    npm install
+    ```
 
-## Security Vulnerabilities
+4.  **Configurar variables de entorno**
+    Copia el archivo de ejemplo `.env.example` a `.env` y configura tu conexión a base de datos:
+    ```bash
+    cp .env.example .env
+    # Edita DB_DATABASE, DB_USERNAME, DB_PASSWORD en el archivo .env
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+5.  **Generar clave de aplicación**
+    ```bash
+    php artisan key:generate
+    ```
 
-## License
+6.  **Migrar y sembrar la base de datos**
+    Este comando creará las tablas e insertará los usuarios por defecto.
+    ```bash
+    php artisan migrate --seed
+    ```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+7.  **Compilar assets e iniciar servidor**
+    ```bash
+    npm run dev
+    php artisan serve
+    ```
+
+---
+
+## Credenciales de Acceso (Entorno Local)
+
+El sistema viene precargado con los siguientes usuarios para pruebas (definidos en `DatabaseSeeder.php`):
+
+| Rol | Correo Electrónico | Contraseña |
+| :--- | :--- | :--- |
+| **Administrador** | `admin1@admin.com` | `12345678` |
+| **Secretaria** | `secretaria@admin.com` | `12345678` |
+| **Trabajador** | `personal@admin.com` | `12345678` |
+| **Encargado** | `encargado@admin.com` | `12345678` |
+| 
+
+> [!WARNING]
+> Estas credenciales son solo para entornos de desarrollo. Asegúrate de cambiarlas en producción.
+
+---
+
+##  Licencia
+
+Este proyecto es software propietario. Todos los derechos reservados.

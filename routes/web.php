@@ -121,6 +121,7 @@ Route::middleware(['auth'])->group(function () {
         
         // Seguridad y Salud
         Route::resource('admin/seguridad', SeguridadSaludController::class)->names('admin.seguridad');
+        Route::post('/admin/seguridad/create', [SeguridadSaludController::class, 'store'])->name('admin.seguridad.store');
 
         Route::post('/admin/movimientos', [MovimientoController::class, 'store'])->name('movimientos.store');
 

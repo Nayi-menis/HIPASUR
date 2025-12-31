@@ -41,6 +41,7 @@
                                             <option value="CHARLA 5 MIN">CHARLA 5 MIN</option>
                                             <option value="ACCIDENTE">ACCIDENTE</option>
                                             <option value="OBSERVACIÓN">OBSERVACIÓN</option>
+                                            <option value="OTRO">OTRO</option>
                                         </select>
                                     </div>
                                 </div>
